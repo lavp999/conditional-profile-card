@@ -30,27 +30,31 @@ function render(variables = {}) {
   if (variables.includeCover == false) cover = "<div class='cover'></div>";
   else cover = `<div class="cover"><img src="${variables.background}" /></div>`;
 
+  let nombreCompleto = (nombre, apell) => {
+    if (nombre == null) {
+      return apell == null ? "Desconocido" : apell;
+    } else {
+      return apell == null ? nombre : nombre + " " + apell;
+    }
+  };
+
+  let ciudadPais =
+    (variables.city === null ? "" : variables.city) +
+    (variables.country === null
+      ? ""
+      : (variables.city === null ? "" : ",") + variables.country);
+
   // reset the website body with the new html output
   document.querySelector("#widget_content").innerHTML =
     `<div class="widget">
             ${cover}
           <img src="${variables.avatarURL}" class="photo" />
           <h1>` +
-    (variables.name == null
-      ? "Desconocido"
-      : variables.name +
-        " " +
-        (variables.lastname === null ? "" : variables.lastname)) +
+    nombreCompleto(variables.name, variables.lastname) +
     `</h1>
           <h2>` +
     (variables.role === null ? "" : variables.role) +
-    `</h2>
-          <h3>` +
-    (variables.city === null ? "" : variables.city + ",") +
-    (variables.country === null ? "" : variables.country) +
-    `</h3>
-          <ul class="position-right">
-            <li><a href="` +
+    `</h2><h3> ${ciudadPais} </h3><ul class="position-right"><li><a href="` +
     (variables.twitter === null
       ? "#"
       : "https://twitter.com/4geeksacademy/" + variables.twitter) +
